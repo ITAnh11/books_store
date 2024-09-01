@@ -2,11 +2,9 @@ const express = require('express');
 const https = require('https');
 const http = require('http');
 const fs = require('fs');
-const { PORT_SERVER } = require('./config.js');
+const { PORT_SERVER } = require('./src/config/server.config.js');
 
-const { db } = require( './database/models/index.js');
-
-const app = express();
+const app = require('./src/routes/index.route.js');
 
 // Load SSL certificate and private key
 const options = {
@@ -25,39 +23,18 @@ const redirectToHTTPS = (req, res, next) => {
 // Apply the redirect middleware
 app.use(redirectToHTTPS);
 
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
-
 // Create HTTPS server
 https.createServer(options, app).listen(PORT_SERVER, () => {
   console.log(`Server listening on port https://localhost:${PORT_SERVER}`);
 });
 
+const db = require('./src/database/models/index.js');
 
-const { Sequelize } = require('sequelize');
-const dotenv = require('dotenv');
-
-dotenv.config();
-
-const sequelize = new Sequelize(
-  process.env.DEV_POSTGRES_DB,
-  process.env.DEV_POSTGRES_USER,
-  process.env.DEV_POSTGRES_PASSWORD,
-  {
-    host: process.env.DEV_POSTGRES_HOST,
-    port: process.env.DEV_POSTGRES_PORT,
-    dialect: 'postgres',
-  }
-);
-
-async function testConnection() {
-  try {
-    await sequelize.authenticate();
+db.sequelize
+  .authenticate()
+  .then(() => {
     console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
-}
-
-testConnection();
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });

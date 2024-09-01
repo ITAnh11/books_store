@@ -17,11 +17,6 @@ module.exports =  (sequelize, DataTypes) => {
     }
   }
   Catagory.init({
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     name: DataTypes.STRING,
     isLeaf: DataTypes.BOOLEAN,
     urlKey: DataTypes.STRING,

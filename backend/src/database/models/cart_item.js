@@ -16,7 +16,7 @@ module.exports =  (sequelize, DataTypes) => {
     }
   }
   CartItem.init({
-    quantity: DataTypes.BIGINT,
+    quantity: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'CartItem',

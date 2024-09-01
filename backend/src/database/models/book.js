@@ -25,11 +25,6 @@ module.exports =  (sequelize, DataTypes) => {
     }
   }
   Book.init({
-    id: {
-      type: DataTypes.BIGINT,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     name: DataTypes.STRING,
     urlPath: DataTypes.STRING,
     currentPrice: DataTypes.DECIMAL(10, 2),
