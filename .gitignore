@@ -1,0 +1,8 @@
+node_modules
+
+certificate.*
+private.key
+
+config.json
+
+.env
